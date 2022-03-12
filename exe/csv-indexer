@@ -1,3 +1,45 @@
 #!/usr/bin/env ruby
 
+require "bundler/setup"
 require "csv/indexer"
+require "optparse"
+
+options = {}
+
+gem_spec = Gem::Specification::load('csv-indexer.gemspec')
+
+parser = OptionParser.new do |opt|
+    opt.banner = "Usage #{gem_spec.name} [options]"
+    opt.define_head gem_spec.summary
+    
+    opt.separator ""
+    
+    opt.on("-i", "--input [VALUE]", String) do |file|
+        options[:input_file] = file
+    end
+
+    opt.on("-m", "--match [VALUE]", Array) do |match|
+        options[:match_on] = match
+    end
+
+    opt.separator ""
+
+    opt.on("-h", "--help", "Show this message") do |help|
+        puts opt
+        exit
+    end
+end
+
+begin
+    parser.parse!
+    puts "The results were written to: #{Csv::Indexer.process(options)}"
+rescue OptionParser::InvalidOption => e
+    STDERR.puts %Q[#{e.message.capitalize}. Run #{File.basename($0)} --help for details.]
+    
+    exit 1
+
+rescue KeyError
+    STDERR.puts %Q[Not enough Arguments. Run #{File.basename($0)} --help for details."]
+
+    exit 2
+end
