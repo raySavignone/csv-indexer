@@ -10,7 +10,7 @@ RSpec.describe Csv::Indexer do
     let(:output_file) { File.join(__dir__, "..", "fixtures", "input2_indexed.csv") }
     let(:csv) { CSV.parse(File.read(output_file), headers: true) }
 
-    context "when matching by phone and email columsn" do
+    context "when matching by phone and email columns" do
       before(:all) do
         Csv::Indexer.process(
           {
