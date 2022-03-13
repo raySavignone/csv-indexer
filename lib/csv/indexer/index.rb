@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require_relative "matcher/base"
+require_relative "matcher/phone"
+
 module Csv
   module Indexer
     # Indexing a document's rows based on the matching columns.
@@ -27,7 +30,15 @@ module Csv
       private
 
       def row_index_values(row, match_on_headers)
-        match_on_headers.map { |header| row[header] }.compact
+        match_on_headers.map do |header|
+          value = row[header]
+          value.nil? ? value : header_matcher(header).transform(value)
+        end.compact
+      end
+
+      def header_matcher(header)
+         # Only two matcher for now.
+        header.downcase.to_sym == :phone ? Csv::Indexer::Matcher::Phone.new : Csv::Indexer::Matcher::Base.new
       end
 
       def matching_row_index(values)
