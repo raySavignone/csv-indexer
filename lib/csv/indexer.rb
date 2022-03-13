@@ -26,7 +26,7 @@ module Csv
       output_file
     end
 
-    def write_to_output(output_file, headers, table, matching_headers)
+    def self.write_to_output(output_file, headers, table, matching_headers)
       index = Csv::Indexer::Index.new
 
       CSV.open(output_file, "w") do |csv|
