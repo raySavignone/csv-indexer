@@ -2,11 +2,13 @@
 
 Index a csv file by indentifying repeated rows based on column values. Output the indexed csv to a new file.
 
-using the `-m` flag, pass in a comma separated list of the fields for matches of row. For example if you want to match on phone, pass `-m phone`, or phone & email, `-m phone,email`.
+Using the `-m` flag, pass in a comma separated list of the fields for matches of row. For example if you want to match on phone, pass `-m phone`, or phone & email, `-m phone,email`.
 
 The colums whose name contain the desired matches will be selected as the matching columns. Email1, Email2 ... ect, will match `-m email`.
 
 An Id column is added to the CSV, the value of which represents the matching records. All records with the same id have matched based on the `-m` option given to the gem.
+
+The resulting CSV file is named the same as the input file with the `_index` appended to it. It is created in the same directory as the input file.
 
 ## Installation
 
@@ -33,7 +35,7 @@ Local from executable:
 ./exe/csv-indexer -i file -m column1,column2
 ```
 
-Local from bin:
+Local from gem:
 
 ```
 bundle exec rake install:local
